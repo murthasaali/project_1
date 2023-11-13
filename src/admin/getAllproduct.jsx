@@ -146,27 +146,28 @@ function GetAllproduct() {
   };
 
   return (
-    <div className='p-4'>
-       <div>
+    <div className='p-4 flex justify-center items-center flex-col'>
+       <div className='h-20  flex justify-center items-center w-full'>
       <motion.button
         onClick={handleToggleSearch}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-       <FaSearch/>
+       <FaSearch className='text-3xl font-thin text-white first-letter  '/>
       </motion.button>
 
       {isSearchVisible && (
         <motion.input
           type="text"
+          className='bg-white bg-opacity-50 w-3/4 h-14 rounded-3xl pl-4'
           placeholder="Search..."
-          initial={{ opacity: 0, x: '-100%' }}
+          initial={{ opacity: 0, x: '-20%' }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: '-100%' }}
+          exit={{ opacity: 0, x: '-50%' }}
         />
       )}
     </div>
-      <div className="overflow-x-auto">
+   
       <motion.table className="w-full bg-fuchsia-200 bg-opacity-60 text-black font-sans  rounded-xl"
            variants={container} 
            initial="hidden"
@@ -208,7 +209,7 @@ function GetAllproduct() {
             ))}
           </tbody>
         </motion.table>
-      </div>
+      
       
      {/* Rest of the code remains unchanged */}
      {selectedProduct && (
@@ -219,8 +220,40 @@ function GetAllproduct() {
         </div>
       )}
 
-      {isEdit && (
-        <div className='bg-gray-800 text-white w-full p-4 rounded-md mb-4'>
+      
+       {isEdit && (
+        <motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.5, ease: "easeOut" } }}
+    style={{
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: 'rgba(0, 0, 0, 0.7)',
+    zIndex: 999,
+  }}
+  onClick={() => setIsedit(false)}
+>
+          <motion.div
+            initial={{ x: 50,y:50, opacity: 0 }}
+            animate={{ x: 0,y:0, opacity: 1 }}
+            transition={{ type: 'tween', stiffness: 260, damping: 20 }}
+            // style={{
+            //   background: 'white',
+            //   padding: '2rem',
+            //   borderRadius: '0.5rem',
+            // }}
+            onClick={(e) => e.stopPropagation()}
+            className='bg-white w-3/4 h-3/4 rounded-xl bg-opacity-70'
+            
+          >
+           <div className='bg-fuchsia-600-800 text-white w-full p-4 rounded-md mb-4'>
           {/* editing process */}
           <form
             onSubmit={(e) => {
@@ -266,6 +299,9 @@ function GetAllproduct() {
             </button>
           </form>
         </div>
+            <button onClick={() => setIsedit(false)}>Close</button>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   );
