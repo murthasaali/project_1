@@ -1,23 +1,39 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { Route, Routes} from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom';
+import Home from './home';
+import Login from './admin/login';
+import Addproduct from './admin/addproduct';
+import GetAllproduct from './admin/getAllproduct';
+import GetaProduct from './admin/getaProduct';
+import GetAllUsers from './admin/getAllusers';
+import Admin from './admin/admin';
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <BrowserRouter>
+    
+
+     <Routes>
+      <Route path='/'  element={<Home/>}/>
+      <Route path='/userlogin'  element={<Login/>}/>
+      <Route path='/admin'  element={<Admin/>}/>
+      <Route path='/admin/user' element={<Admin />} />
+          {/* //  <Route path='/admin/addproduct' element={<Admin />} /> */}
+            <Route path='/admin/sales' element={<Admin />} />
+            <Route path='/admin/prosec' element={<Admin />} />
+            <Route path='/admin/add' element={<Admin />} />
+      <Route path='/addproduct'  element={<Addproduct/>}/>
+      <Route path='/getallpro'  element={<GetAllproduct/>}/>
+      <Route path='/getapro'  element={<GetaProduct/>}/>
+      <Route path='/getallusers'  element={<GetAllUsers/>}/>
+     </Routes>
+     
+  
+     </BrowserRouter>
     </div>
   );
 }
