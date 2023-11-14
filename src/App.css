@@ -184,3 +184,80 @@
   font-weight: 600;
  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+/* Add these styles in your CSS file or use inline styles in your React components */
+
+.home-container {
+  max-width: 1200px;
+  
+  width: 100%;
+  
+}
+
+
+
+.button-container {
+  display: flex;
+  background-color: rgb(255, 255, 255);
+  width: 290px;
+  height: 60px;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 25px;
+  opacity: 0.5;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
+        rgba(0, 0, 0, 0.5) 5px 10px 15px;
+        z-index: 2;
+        position: fixed;
+        bottom: 50px;       
+}
+.main-bar {
+  display: flex;
+  
+  width: 100%;
+  height: 80px;
+  align-items: center;
+  justify-content: space-around;
+  position: sticky;
+  opacity: 0.8;
+  
+
+
+  top: 0;
+}
+.button {
+  outline: 0 !important;
+  border: 0 !important;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  transition: all ease-in-out 0.3s;
+  cursor: pointer;
+}
+.button:hover {
+  transform: translateY(-3px);
+}
+@media only screen and (min-width: 900px) {
+  .button-container {
+    display: none;
+  }
+  .main-bar{
+    display: flex;
+  }
+}
+@media only screen and (max-width: 900px) {
+  
+  .main-bar{
+    display: none;
+  }
+}
+.icon-container {
+  width: 80px;
+  height: 80px;
+  background-image: url('car.png'); /* Adjust the path based on your file location */
+  background-size: contain;
+}

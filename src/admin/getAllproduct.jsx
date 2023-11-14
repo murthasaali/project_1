@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProducts, selectToken, setProducts as setProductsAction } from '../redux/authSlice'; // Rename setProducts to setProductsAction
 import { motion } from 'framer-motion';
-import { FaSearch } from 'react-icons/fa';
+import { FaEdit, FaSearch } from 'react-icons/fa';
 const container = {
   hidden: { opacity: 0.8, scale: 0.8 },
   visible: {
@@ -87,6 +87,7 @@ function GetAllproduct() {
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
+    console.log(selectedProduct)
   };
   const deleteProduct = async (productId, token) => {
     try {
@@ -135,6 +136,7 @@ function GetAllproduct() {
         getAllProducts(token);
         setIsedit(false); // Hide the edit section after successful update
         alert(`succussfully updated  ${updatedProductData.title}`)
+        setupdatedProductData(null)
       } else {
         console.error('Product update failed. Message:', message);
       }
@@ -146,37 +148,36 @@ function GetAllproduct() {
   };
 
   return (
-    <div className='p-4 flex justify-center items-center flex-col'>
-       <div className='h-20  flex justify-center items-center w-full'>
+    <div className=' flex justify- items-center gap-10 flex-col w-full h-full overflow-auto pl-2 '>
+       <div className='h-24 p-4 flex justify-start gap-10 items-center w-full sticky top-0 bg-white bg-opacity-90'>
       <motion.button
         onClick={handleToggleSearch}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-       <FaSearch className='text-3xl font-thin text-white first-letter  '/>
+       <FaSearch className='text-3xl font-thin text-black first-letter  '/>
       </motion.button>
 
       {isSearchVisible && (
-        <motion.input
-          type="text"
-          className='bg-white bg-opacity-50 w-3/4 h-14 rounded-3xl pl-4'
-          placeholder="Search..."
-          initial={{ opacity: 0, x: '-20%' }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: '-50%' }}
+        <motion.input variants={item}
+        type="text"
+        className='bg-stone-300  text-white w-3/4 h-14 rounded-3xl pl-4 overflow-hidden shadow-md'
+        placeholder="Search..."
+        initial={{ opacity: 0, x: '-20%' }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: '-50%' }}
         />
-      )}
+        )}
+        <div className='absolute right-0 mr-20 font-thin  z-20'>sort</div>
     </div>
-   
-      <motion.table className="w-full bg-fuchsia-200 bg-opacity-60 text-black font-sans  rounded-xl"
-           variants={container} 
+    <motion.table className="w-full bg-white text-blue-800 font-sans rounded-xl overflow-hidden shadow-md"
            initial="hidden"
            animate="visible">
           <thead>
             <tr className="">
               <th className="py-2 px-4 w-1/12 sm:w-1/6">ID</th>
-              <th className="py-2 px-4 w-1/6 sm:w-1/3">Title</th>
-              <th className="py-2 px-4 w-1/6 sm:w-1/3">Price</th>
+              <th className="py-2 px-4 w-1/12 sm:w-1/12">Title</th>
+              <th className="py-2 px-4 w-1/12 sm:w-1/12">Price</th>
               <th className="py-2 px-4 w-1/6 sm:w-1/6">Category</th>
               <th className="py-2 px-4 w-1/6 sm:w-1/6">Image</th>
               <th className="py-2 px-4 w-1/6 sm:w-1/6">Description</th>
@@ -188,20 +189,20 @@ function GetAllproduct() {
             {products.map((product, index) => (
               <tr  key={product._id} className='' onClick={() => handleProductClick(product)}>
                 <motion.td  variants={item} className="py-2 px-4 w-1/12 sm:w-1/6">{index + 1}</motion.td >
-                <motion.td  variants={item}  className="py-2 px-4 w-1/6 sm:w-1/3">{product.title}</motion.td >
-                <motion.td   variants={item} className="py-2 px-4 w-1/6 sm:w-1/3">{product.price}</motion.td >
-                <motion.td   variants={item} className="py-2 px-4 w-1/6 sm:w-1/6">Category Heading</motion.td >
-                <motion.td  variants={item} className="py-2 px-4 w-1/6 sm:w-1/6">
-                  <img src={product.image} alt={product.title} className="w-20 h-20" />
+                <motion.td  variants={item}  className="py-2 px-4 w-1/6 sm:w-1/6">{product.title}</motion.td >
+                <motion.td   variants={item} className="py-2 px-4 text-red-800 w-1/12 sm:w-1/3">₹ {product.price}</motion.td >
+                <motion.td   variants={item} className="py-2 px-4 w-1/6 sm:w-1/6">{product.category}</motion.td >
+                <motion.td  variants={item} className="py-2 px-4 w-1/6 sm:w-1/3 rounded-lg">
+                  <img src={product.image} alt={product.title} className="w-full h-20 overflow-hidden rounded-lg" />
                 </motion.td >
                 <motion.td  variants={item} className="py-2 px-4 w-1/6 sm:w-1/6">{product.description}</motion.td >
                 <motion.td  variants={item} className="py-2 px-4 w-1/6 sm:w-1/6">
                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>handleEdit(product._id)}>
-                    Edit
+                    <FaEdit/>
                   </button>
                 </motion.td >
                 <motion.td  variants={item} className="py-2 px-4 w-1/6 sm:w-1/6">
-                  <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={()=>handleDelete(product._id)}>
+                  <button className="bg-red-500 hover:bg-red-700 text- stroke-neutral-800 font-bold py-2 px-4 rounded" onClick={()=>handleDelete(product._id)}>
                     Delete
                   </button>
                 </motion.td >
@@ -211,15 +212,7 @@ function GetAllproduct() {
         </motion.table>
       
       
-     {/* Rest of the code remains unchanged */}
-     {selectedProduct && (
-        <div className='bg-gray-100 p-4 rounded-md mb-4'>
-          <h2 className='text-2xl font-bold mb-2'>{selectedProduct.title}</h2>
-          <p className='text-lg'>Price: {selectedProduct.price}</p>
-          <p className='text-lg'>Description: {selectedProduct.description}</p>
-        </div>
-      )}
-
+    
       
        {isEdit && (
         <motion.div
@@ -253,9 +246,12 @@ function GetAllproduct() {
             className='bg-white w-3/4 h-3/4 rounded-xl bg-opacity-70'
             
           >
-           <div className='bg-fuchsia-600-800 text-white w-full p-4 rounded-md mb-4'>
+           <div className='bg-fuchsia-600-800 text-white w-full p-4 rounded-md mb-4 h-full'>
           {/* editing process */}
-          <form
+          <motion.form
+           variants={container} 
+           initial="hidden"
+           animate="visible"
             onSubmit={(e) => {
               e.preventDefault();
                setupdatedProductData({
@@ -266,40 +262,59 @@ function GetAllproduct() {
               });
               handleUpdateProduct(selectedProduct._id, updatedProductData,token);
             }}
-          >
-            <input
+          className='w-full h-full flex justify-center items-center'>
+
+            <div className='w-1/2 flex flex-col justify-around p-10 h-full '>
+
+            <input variants={item}
               type='text'
               name='title'
               placeholder='Title'
               defaultValue={selectedProduct.title}
-              className='bg-gray-700 text-white rounded-md px-3 py-2 mb-2'
-            />
-            <input
+              className='bg-fuchsia-500 bg-opacity-60 text-black w-3/4 rounded-md px-3 py-2 mb-2'
+              /> 
+            {/* <input variants={item}
+              type='file'
+              name='image'
+              placeholder='choose image'
+              defaultValue={selectedProduct.title}
+              className='bg-fuchsia-500 bg-opacity-60 text-black w-3/4 rounded-md px-3 py-2 mb-2'
+              /> */}
+            <input variants={item}
               type='number'
               name='price'
               placeholder='Price'
               defaultValue={selectedProduct.price}
-              className='bg-gray-700 text-white rounded-md px-3 py-2 mb-2'
+              className='bg-fuchsia-500 bg-opacity-60 text-black w-3/4 rounded-md px-3 py-2 mb-2'
             />
-            <input
+            <input variants={item}
               type='text'
               name='category'
               placeholder='Category'
               defaultValue={selectedProduct.category}
-              className='bg-gray-700 text-white rounded-md px-3 py-2 mb-2'
+              className='bg-fuchsia-500 bg-opacity-60 text-black w-3/4 rounded-md px-3 py-2 mb-2'
             />
             <textarea
               name='description'
               placeholder='Description'
               defaultValue={selectedProduct.description}
-              className='bg-gray-700 text-white rounded-md px-3 py-2 mb-2'
+              className='bg-fuchsia-500 bg-opacity-60 text-black w-3/4 rounded-md px-3 py-2 mb-2'
             />
-            <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+              </div>
+              <div className='w-3/4 p-10 flex flex-col gap-20 items-center'>
+
+              <div className='w-full h-2/5 rounded-full  flex flex-col items-center justify-center'>
+            <img className='h-52 w-52 rounded-full' src={selectedProduct.image} alt="" />
+        
+          </div>
+            <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded'>
               Update Product
             </button>
-          </form>
+              </div>
+          </motion.form>
         </div>
-            <button onClick={() => setIsedit(false)}>Close</button>
+
+           
           </motion.div>
         </motion.div>
       )}
