@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-export const content = [
-  "./src/**/*.{js,jsx,ts,tsx}",
-];
+module.exports = {
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  plugins: [require('daisyui')],
+};
 export const theme = {
   extend: {
     backgroundImage: {

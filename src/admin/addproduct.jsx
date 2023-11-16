@@ -39,6 +39,7 @@ function Addproduct() {
       if (status === 'success') {
         // Product added successfully.
         console.log('Product added. Product details:', data);
+      
       } else {
         console.error('Product addition failed. Message:', message);
       }

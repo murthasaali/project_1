@@ -6,11 +6,11 @@ import { selectIsabout } from '../redux/authSlice'
 
 function About() {
     const dispatch=useDispatch()
-    const isAdmin=useSelector(selectIsabout)
-    console.log(isAdmin)
+    const isAbout=useSelector(selectIsabout)
+    console.log(isAbout)
   return (
-  
-    <motion.div
+  <>
+  { isAbout&& <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
@@ -41,15 +41,16 @@ function About() {
       className=" w-3/4 h-3/4 bg-no-repeat bg-conatin bg-center   rounded-lg bg-[url('car.png')]"
       onClick={(e) => e.stopPropagation()}
   
-     
-    > <div className='w-full h-full bg-white bg-opacity-60 rounded-lg'></div>
+      
+      > <div className='w-full h-full bg-white bg-opacity-60 rounded-lg'></div>
     {/* <input type="text" className='bg-stone-300 text-blue-950  w-3/4 h-14 rounded-3xl pl-4 overflow-hidden shadow-md'/> */}
 
       
     </motion.div>
  
   </motion.div>
-   
+   }
+      </>
   )
 }
 

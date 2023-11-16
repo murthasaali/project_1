@@ -12,6 +12,7 @@ import Admin from './admin/admin';
 import Home from './user/home';
 import Mainbar from './user/mainbar';
 import About from './user/about';
+import Registration from './admin/registration';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
      <Routes>
       <Route path='/'  element={<Home/>}/>
    <Route path='/login'  element={<Login/>}/> 
+   <Route path='/reg'  element={<Registration/>}/> 
       <Route path='/admin'  element={<Admin/>}/>
       <Route path='/about'  element={<About/>}/>
       <Route path='/admin/user' element={<Admin />} />

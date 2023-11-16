@@ -101,7 +101,7 @@ function GetAllproduct() {
         // Successfully deleted the product.
         console.log('Product deleted.');
         // Call the API again to refresh the product list
-        getAllProducts(token);
+        getAllProducts(dealerToken);
       } else {
         console.error('Product deletion failed. Message:', message);
       }

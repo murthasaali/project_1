@@ -6,10 +6,9 @@ import DotBadge from '../components/badge';
 import {  useNavigate } from 'react-router-dom';
 import About from './about';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsabout, setIsabout } from '../redux/authSlice';
-
-
-
+import { selectIsabout, selectIscollection, setIscollection } from '../redux/authSlice';
+import { setIsabout } from '../redux/authSlice';
+import Garage from './garage';
 // Variants for different scaling durations
 const scaleVariants = {
   initial: { scale: 1 },
@@ -23,16 +22,15 @@ function Mainbar() {
   const isAbout=useSelector(selectIsabout)
   const nav=useNavigate()
   const dispatch=useDispatch()
- 
-  const handleAbout = () => {
-    dispatch(setIsabout(true)); // Updating isAbout state to true
-  };
+  const isCollection = useSelector(selectIscollection);
+
+  
   
   
   return (
     <div className="main-bar">
       {/* Company Name */}
-      <motion.div
+      <motion.button
        initial={{ scale: 0 }}
        animate={{ rotate: 360, scale: 1 }}
        transition={{
@@ -42,47 +40,46 @@ function Mainbar() {
        }}
       className="icon-container" onDoubleClick={()=>nav('/admin')}>
      
-    </motion.div>
+    </motion.button>
 
       {/* Navigation Links */}
       <div className="flex gap-4">
         <ul className='flex gap-4 font-thin text-blue-950'>
-          <motion.li variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
-           <p  onClick={handleAbout}>About</p> 
-          </motion.li>
-          <motion.li variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
-            Collection
-          </motion.li>
-          <motion.li variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+          <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+          <p onClick={() => dispatch(setIsabout(true))}>About</p>          </motion.button>
+          <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+            <p  onClick={()=>dispatch(setIscollection(true))}>  Collection</p>
+          </motion.button>
+          <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
             Home
-          </motion.li>
-          <motion.li variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+          </motion.button>
+          <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
             Contact
-          </motion.li>
+          </motion.button>
         </ul>
         {/* Additional navigation-related content */}
       </div>
 
       {/* User-related Elements */}
       <div className="flex gap-4 justify-center items-center">
-        <motion.div variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" onClick={()=>setIsSearch(true)}>
+        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" onClick={()=>setIsSearch(true)}>
           <FaSearch />
-        </motion.div>
-        <motion.span className="username" variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+        </motion.button>
+        <motion.button className="username" variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
           Username
-        </motion.span>
-        <motion.div variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+        </motion.button>
+        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
           <FaUser  onClick={()=>setIslogin(true)}/>
-        </motion.div>
-        <motion.div variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+        </motion.button>
+        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
           <FaCartPlus/>
-        </motion.div>
-        <motion.div variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+        </motion.button>
+        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
           <FaHeart/>
-        </motion.div>
-        <motion.div variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+        </motion.button>
+        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
           <DotBadge/>
-        </motion.div>
+        </motion.button>
         {/* Additional user-related content */}
       </div>
       {isSearch && (
@@ -127,7 +124,9 @@ function Mainbar() {
       {isAbout && (
         <About/>
       )}
-
+      {isCollection&&(
+        <Garage/>
+      )}
 
     </div>
   );

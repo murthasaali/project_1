@@ -9,6 +9,7 @@ export const authSlice = createSlice({
     isSignIn: true,
     isAbout:false,
     isLogin:false,
+    isCollection:false,
   },
   reducers: {
     setToken: (state, action) => {
@@ -30,16 +31,19 @@ export const authSlice = createSlice({
     setIslogin: (state, action) => {
       state.isLogin = action.payload;
     },
-    // other reducers
-  },
+    setIscollection: (state, action) => {
+      state.isCollection = action.payload;
+    },
+  }
 });
 
-export const { setToken, setUserToken, setProducts, setSignIn ,setIsabout,setIslogin} = authSlice.actions;
+export const {setIscollection, setToken, setUserToken, setProducts, setSignIn ,setIsabout,setIslogin} = authSlice.actions;
 
 export const selectToken = (state) => state.auth.token;
 export const selectUserToken = (state) => state.auth.userToken;
 export const selectProducts = (state) => state.auth.products;
 export const selectIsabout = (state) => state.auth.isAbout;
 export const selectIslogin = (state) => state.auth.isLogin;
+export const selectIscollection = (state) => state.auth.isCollection;
 
 export default authSlice.reducer;

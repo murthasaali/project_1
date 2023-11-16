@@ -45,12 +45,15 @@ function Login() {
   // }
   const tologin = (event) => {
     const email = event.target.email.value;
+    const password=event.target.password.value;// /  const apiKey=""
     const isAdmin = email === "murthasa@mail.com"; // Replace with the actual admin email
-  
+    event.preventDefault();
+   
+   const accessKey="55eebc5550c70b2b7736"
     if (isAdmin) {
       handleLogin(event);
     } else {
-      loginUser(event);
+      loginUser(accessKey,email,password);
     }
   };
   
@@ -89,11 +92,8 @@ function Login() {
     
 
   
-  const loginUser = async (event) => {
-    event.preventDefault();
-    const email=event.target.email.value;
-    const password=event.target.password.value;// /  const apiKey=""
-   const accessKey="55eebc5550c70b2b7736"
+  const loginUser = async (accessKey,email,password) => {
+  
 
     try {
       const response = await axios.post('https://ecommerce-api.bridgeon.in/users/login', {
@@ -102,7 +102,8 @@ function Login() {
         password,
       }
         );
-      const { status, message, data } = response.getdata;
+        const { status, message, data } = response.data;
+
       if (status === 'success') {
         console.log(data)
         const token = data.token;

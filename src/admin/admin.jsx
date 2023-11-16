@@ -47,7 +47,7 @@ function Admin() {
   return (
     <div className='bg-stone-200  h-screen w-full  flex  ' >
       <Navber/>
-        <motion.container
+        <motion.div
          variants={container}
          initial="hidden"
          animate="visible"
@@ -57,15 +57,15 @@ function Admin() {
          <h1>murthasa</h1>
           </div>
            
-            <motion.div  variants={item} whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><SiStackoverflow className='text-3xl text-blue-400'/>  <h1>DASH BOARD</h1></motion.div>
-            <motion.div  variants={item} whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><BiHomeAlt className='text-3xl text-blue-400'/>  <h1> HOME</h1></motion.div>
-            <motion.div  variants={item} whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><MdOutlineAutoGraph className='text-3xl  text-blue-400'/>  <h1>SALES</h1></motion.div>
-            <motion.div  variants={item} whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><BiUser className='text-3xl  text-blue-400'/>  <h1 onClick={()=>nav('/admin/user')}>USE DETAIL</h1></motion.div>
-            <motion.div  variants={item} whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><FaOpencart className='text-3xl  text-blue-400'/>  <h1 onClick={()=>nav('/admin/prosec')}>PRODUCT DETAILS</h1></motion.div>
-            <motion.div  variants={item}   whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><BiCartAdd className='text-3xl  text-blue-400'/> <h1 onClick={()=>nav('/admin/add')}>ADD PRODUCT</h1></motion.div>
+            <motion.button  variants={item} whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><SiStackoverflow className='text-3xl text-blue-400'/>  <h1>DASH BOARD</h1></motion.button>
+            <motion.button  variants={item} whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><BiHomeAlt className='text-3xl text-blue-400'/>  <h1> HOME</h1></motion.button>
+            <motion.button  variants={item} whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><MdOutlineAutoGraph className='text-3xl  text-blue-400'/>  <h1>SALES</h1></motion.button>
+            <motion.button  variants={item} whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><BiUser className='text-3xl  text-blue-400'/>  <h1 onClick={()=>nav('/admin/user')}>USE DETAIL</h1></motion.button>
+            <motion.button  variants={item} whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><FaOpencart className='text-3xl  text-blue-400'/>  <h1 onClick={()=>nav('/admin/prosec')}>PRODUCT DETAILS</h1></motion.button>
+            <motion.button  variants={item}   whileHover={item.hover} className='flex  ml-10  justify-start items-center gap-1 ' ><BiCartAdd className='text-3xl  text-blue-400'/> <h1 onClick={()=>nav('/admin/add')}>ADD PRODUCT</h1></motion.button>
            
-        </motion.container >
-        <motion.container 
+        </motion.div >
+        <motion.div 
         variants={container} 
         initial="hidden"
         animate="visible"
@@ -85,7 +85,7 @@ function Admin() {
        {
         isadd&&<Addproduct/>
        }
-        </motion.container >
+        </motion.div >
 
 
     </div>
