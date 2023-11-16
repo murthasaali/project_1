@@ -7,6 +7,8 @@ export const authSlice = createSlice({
     products: [],
     userToken: null,
     isSignIn: true,
+    isAbout:false,
+    isLogin:false,
   },
   reducers: {
     setToken: (state, action) => {
@@ -22,14 +24,22 @@ export const authSlice = createSlice({
     setSignIn: (state, action) => {
       state.isSignIn = action.payload;
     },
+    setIsabout: (state, action) => {
+      state.isAbout = action.payload;
+    },
+    setIslogin: (state, action) => {
+      state.isLogin = action.payload;
+    },
     // other reducers
   },
 });
 
-export const { setToken, setUserToken, setProducts, setSignIn } = authSlice.actions;
+export const { setToken, setUserToken, setProducts, setSignIn ,setIsabout,setIslogin} = authSlice.actions;
 
 export const selectToken = (state) => state.auth.token;
 export const selectUserToken = (state) => state.auth.userToken;
 export const selectProducts = (state) => state.auth.products;
+export const selectIsabout = (state) => state.auth.isAbout;
+export const selectIslogin = (state) => state.auth.isLogin;
 
 export default authSlice.reducer;

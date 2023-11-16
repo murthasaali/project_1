@@ -45,7 +45,7 @@ function Admin() {
   const isprosec=location.pathname.endsWith('/admin/prosec')
   const isadd=location.pathname.endsWith('/admin/add')
   return (
-    <div className='bg-white bg-opacity-40 h-screen w-full  flex  ' >
+    <div className='bg-stone-200  h-screen w-full  flex  ' >
       <Navber/>
         <motion.container
          variants={container}

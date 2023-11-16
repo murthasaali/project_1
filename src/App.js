@@ -11,6 +11,7 @@ import GetAllUsers from './admin/getAllusers';
 import Admin from './admin/admin';
 import Home from './user/home';
 import Mainbar from './user/mainbar';
+import About from './user/about';
 
 
 function App() {
@@ -22,8 +23,9 @@ function App() {
 
      <Routes>
       <Route path='/'  element={<Home/>}/>
-    {/* //  <Route path='/userlogin'  element={<Login/>}/> */}
+   <Route path='/login'  element={<Login/>}/> 
       <Route path='/admin'  element={<Admin/>}/>
+      <Route path='/about'  element={<About/>}/>
       <Route path='/admin/user' element={<Admin />} />
           {/* //  <Route path='/admin/addproduct' element={<Admin />} /> */}
             <Route path='/admin/sales' element={<Admin />} />

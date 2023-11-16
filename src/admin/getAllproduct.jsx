@@ -110,7 +110,7 @@ function GetAllproduct() {
     }
   };
   const handleDelete = (productId) => {
-    deleteProduct(productId, token)
+    deleteProduct(productId, dealerToken)
   };
   const handleEdit = (productId) => {
     const productToEdit = products.find((product) => product._id === productId);

@@ -4,6 +4,10 @@ export const content = [
 ];
 export const theme = {
   extend: {
+    backgroundImage: {
+   
+    
+    },
 
   },
 };

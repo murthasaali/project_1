@@ -7,8 +7,7 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { selectToken } from "../redux/authSlice";
 import Registration from "./registration";
-
-
+import { setIslogin } from "../redux/authSlice";
 const item = {
   hidden: { y: 20, opacity: 0 },
   visible: {
@@ -31,11 +30,11 @@ const container = {
 };
 
 function Login() {
-  const location=useLocation()
+
   
   const isSignIn = useSelector((state) => state.auth.isSignIn);
-  const token=useSelector(selectToken)
-  const [isOpen, setIsOpen] = useState(false);
+
+
   const [state, setState] = useState("");
   const [name, setName] = useState("");
   const dispatch = useDispatch();
@@ -121,26 +120,42 @@ function Login() {
   };
   
   return (
-    < div className=" h-screen w-full flex justify-around items-center  bg-gradient-to-r from-violet-500 to-fuchsia-500" >
-      <div className="flex flex-col h-full  w-1/2 justify-evenly items-center">
-        <motion.div
-        
-          layout
-          data-isopen={isOpen}
-          initial={{ borderRadius: 50 }}
-          className="parent"
-          onClick={() => setIsOpen(!isOpen)}
-        >{
-            isOpen ?
-              <motion.h1 layout className="child" ></motion.h1> :
-              <motion.h1 layout className="child" >CAR RENTAL</motion.h1>
-
-          }
-        </motion.div>
-        <p className="text-white " onClick={()=>navigation('/getallpro')}>Provide tips and advice from automotive experts on how to optimize the speed and performance of different car models. This can include insights on engine tuning, aerodynamic modifications, and performance-enhancing accessories</p>
-      </div>
-
-  {   
+    <>
+ 
+ <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.3 }}
+    style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: 'rgba(0, 0, 0, 0.9)',
+      zIndex: 999,
+    }}
+    onClick={() =>dispatch(setIslogin(false))}
+  >
+    <motion.div
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: 'tween', stiffness: 260, damping: 20 }}
+      // style={{
+      //   background: 'white',
+      //   padding: '2rem',
+      //   borderRadius: '0.5rem',
+      // }}
+      className=" w-3/4 h-3/4 bg-no-repeat bg-conatin bg-center   rounded-lg bg-[url('car.png')]"
+      onClick={(e) => e.stopPropagation()}
+  
+     
+    > <div className='w-full h-full bg-white bg-opacity-60 rounded-lg'>
+ {   
   isSignIn?
   
   
@@ -196,7 +211,18 @@ function Login() {
       
       }
 
+
     </div>
+    {/* <input type="text" className='bg-stone-300 text-blue-950  w-3/4 h-14 rounded-3xl pl-4 overflow-hidden shadow-md'/> */}
+
+      
+    </motion.div>
+ 
+  </motion.div>
+
+ 
+
+</>
     // <div>
     //   <div className="L-wrapper">
     //     <div className="L-inner">

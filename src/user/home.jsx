@@ -2,7 +2,7 @@ import React from 'react'
 import Navber from './navbar'
 import Mainbar from './mainbar'
 import { motion } from 'framer-motion';
-import Carousel from './carousal';
+
 const container = {
   hidden: { opacity: 1, scale: 0 },
   visible: {
@@ -33,7 +33,7 @@ function Home() {
    <div className='w-full h-full  flex flex-col '>
     <Mainbar/>
     <div className='w-full flex p-3 h-1/2'>
-      <div className='w-3/4 bg-black rounded-lg bg-opacity-30'><Carousel/></div>
+      <div className='w-3/4 bg-black rounded-lg bg-opacity-30'></div>
       <div className='w-1/2 p-7 font-thin'> <p>most popular brands</p><motion.ul
     className="w-full h-full p-4 gap-4 grid grid-cols-4  grid-rows-2 gap-15 p-15 overflow-hidden bg-opacity-20 rounded-3xl"
     variants={container}

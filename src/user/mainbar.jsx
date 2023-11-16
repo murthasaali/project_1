@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaCartPlus, FaHeart, FaSearch, FaUser } from 'react-icons/fa';
 
+import DotBadge from '../components/badge';
+import {  useNavigate } from 'react-router-dom';
+import About from './about';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsabout, setIsabout } from '../redux/authSlice';
+
+
+
 // Variants for different scaling durations
 const scaleVariants = {
   initial: { scale: 1 },
@@ -9,7 +17,18 @@ const scaleVariants = {
 };
 
 function Mainbar() {
+
   const [isSearch,setIsSearch]=useState(false)
+  const [isLogin,setIslogin]=useState(false)
+  const isAbout=useSelector(selectIsabout)
+  const nav=useNavigate()
+  const dispatch=useDispatch()
+ 
+  const handleAbout = () => {
+    dispatch(setIsabout(true)); // Updating isAbout state to true
+  };
+  
+  
   return (
     <div className="main-bar">
       {/* Company Name */}
@@ -21,7 +40,7 @@ function Mainbar() {
          stiffness: 260,
          damping: 20
        }}
-      className="icon-container">
+      className="icon-container" onDoubleClick={()=>nav('/admin')}>
      
     </motion.div>
 
@@ -29,7 +48,7 @@ function Mainbar() {
       <div className="flex gap-4">
         <ul className='flex gap-4 font-thin text-blue-950'>
           <motion.li variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
-            About
+           <p  onClick={handleAbout}>About</p> 
           </motion.li>
           <motion.li variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
             Collection
@@ -45,7 +64,7 @@ function Mainbar() {
       </div>
 
       {/* User-related Elements */}
-      <div className="flex gap-4">
+      <div className="flex gap-4 justify-center items-center">
         <motion.div variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" onClick={()=>setIsSearch(true)}>
           <FaSearch />
         </motion.div>
@@ -53,13 +72,16 @@ function Mainbar() {
           Username
         </motion.span>
         <motion.div variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
-          <FaUser/>
+          <FaUser  onClick={()=>setIslogin(true)}/>
         </motion.div>
         <motion.div variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
           <FaCartPlus/>
         </motion.div>
         <motion.div variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
           <FaHeart/>
+        </motion.div>
+        <motion.div variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+          <DotBadge/>
         </motion.div>
         {/* Additional user-related content */}
       </div>
@@ -102,6 +124,10 @@ function Mainbar() {
           </motion.div>
         </motion.div>
       )}
+      {isAbout && (
+        <About/>
+      )}
+
 
     </div>
   );
