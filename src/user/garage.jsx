@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion'; // Import useAnimation from framer-motion
@@ -6,6 +6,7 @@ import axios from 'axios';
 import { selectIscollection, selectProducts, selectUserToken, selectUserid, setIscollection, setProducts } from '../redux/authSlice';
 import { selectToken } from '../redux/authSlice';
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import Alert from '@mui/material/Alert';
 
 function Garage() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ function Garage() {
   const token = useSelector(selectToken);
   const userToken=useSelector(selectUserToken)
   const userId=useSelector(selectUserid)
+  const [toast,setToast]=useState(false)
   console.log(userId);
   console.log(userToken);
 
@@ -70,6 +72,7 @@ const handleCart = async (productId) => {
 
     if (response.data.status === 'success') {
       console.log('Product added to cart.');
+      setToast(true)
       alert("product aded")
     } else {
       console.error('Product addition to cart failed. Message:', response.data.message);
@@ -78,9 +81,17 @@ const handleCart = async (productId) => {
     console.error('Error:', error.message);
   }
 };
-
+const handleCloseToast = () => {
+  setToast(false);
+};
   return (
     <>
+    {
+      toast&&
+      <Alert onClose={handleCloseToast} severity="success" sx={{ position: 'fixed', top: 20, right: 20 }}>
+      Product added to cart!
+    </Alert>
+    }
       {isCollection && (
         <motion.div
           initial={{ opacity: 0 }}

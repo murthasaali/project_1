@@ -10,11 +10,14 @@ import { selectIsabout, selectIscart, selectIscollection, setIscollection,setIsc
 import { setIsabout } from '../redux/authSlice';
 import Garage from './garage';
 import Cart from './cart';
+import Offer from './offer';
+import { Avatar } from '@mui/material';
 // Variants for different scaling durations
 const scaleVariants = {
   initial: { scale: 1 },
   hover: { scale: 1.1, transition: { duration: 0.3 } }, // Change duration as needed
 };
+
 
 function Mainbar() {
 
@@ -37,6 +40,7 @@ function Mainbar() {
       {/* Company Name */}
       <motion.button
        initial={{ scale: 0 }}
+       whileHover={{ rotate: 160 }}
        animate={{ rotate: 360, scale: 1 }}
        transition={{
          type: "spring",
@@ -81,12 +85,18 @@ function Mainbar() {
           <FaSignOutAlt/>
         </motion.button> }
         <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" >
-          <FaHeart/>
+          <FaHeart className='text-pink-500'/>
         </motion.button>
-        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" onClick={()=>dispatch(setIscart(true))}>
+        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover"  onClick={()=>dispatch(setIscart(true))}>
           <DotBadge/>
         </motion.button>
         {/* Additional user-related content */}
+      { isLogin&& <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" >
+          <Avatar>
+
+          <FaUser/>
+          </Avatar>
+        </motion.button>}
       </div>
       {isSearch && (
         <motion.div
@@ -122,7 +132,10 @@ function Mainbar() {
         
            
           >
-          <input type="text" className='bg-stone-300 text-blue-950  w-3/4 h-14 rounded-3xl pl-4 overflow-hidden shadow-md   '/>
+          <input type="text" className='bg-stone-300 text-blue-950  w-3/4 h-14 rounded-3xl pl-4 overflow-hidden shadow-md   '
+           initial={{ opacity: 0, y: '-20%' }}
+           animate={{ opacity: 1, y: 0 }}
+           exit={{ opacity: 0, y: '-50%' }}/>
             
           </motion.div>
         </motion.div>
@@ -137,6 +150,11 @@ function Mainbar() {
         isCart&&
         <Cart/>
       }
+      {
+        !isLogin&&
+        <Offer/>
+      }
+      
 
     </div>
   );
