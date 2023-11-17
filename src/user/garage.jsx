@@ -1,20 +1,24 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { motion, useAnimation } from 'framer-motion'; // Import useAnimation from framer-motion
+import { motion } from 'framer-motion'; // Import useAnimation from framer-motion
 import axios from 'axios';
-import { selectIscollection, selectProducts, setIscollection, setProducts } from '../redux/authSlice';
+import { selectIscollection, selectProducts, selectUserToken, selectUserid, setIscollection, setProducts } from '../redux/authSlice';
 import { selectToken } from '../redux/authSlice';
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 function Garage() {
   const dispatch = useDispatch();
+  
   const isCollection = useSelector(selectIscollection);
   const products = useSelector(selectProducts);
   const token = useSelector(selectToken);
+  const userToken=useSelector(selectUserToken)
+  const userId=useSelector(selectUserid)
+  console.log(userId);
+  console.log(userToken);
 
-  const controls = useAnimation(); // Initialize useAnimation hook
-
+ 
   const getAllProducts = async (token) => {
     try {
       const response = await axios.get('https://ecommerce-api.bridgeon.in/products?accessKey=55eebc5550c70b2b7736', {
@@ -37,20 +41,52 @@ function Garage() {
 
   useEffect(() => {
     getAllProducts(token);
-  }, [isCollection]);
+  }, [isCollection,token]);
 
   const handleClick = () => {
     dispatch(setIscollection(false));
   };
 
+
+
+const handleCart = async (productId) => {
+  try {
+    console.log("Adding product to cart...");
+    console.log("Product ID:", productId);
+    console.log("User ID:", userId);
+    console.log("User Token:", userToken);
+
+    const response = await axios.post(
+      `https://ecommerce-api.bridgeon.in/users/${userId}/cart/${productId}`,
+      null, // Assuming no data payload, pass null if not needed
+      {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      }
+    );
+
+    console.log("Response:", response); // Log the response from the server
+
+    if (response.data.status === 'success') {
+      console.log('Product added to cart.');
+      alert("product aded")
+    } else {
+      console.error('Product addition to cart failed. Message:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+};
+
   return (
     <>
       {isCollection && (
         <motion.div
-          initial={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.5 }}
           style={{
             position: 'fixed',
             top: 0,
@@ -74,7 +110,7 @@ function Garage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="w-full h-40 bg-black flex justify-start rounded-lg p-4">
-              <p className='text-4xl font-thin text-white text-opacity-75'>Top cars available right now !!!!</p>
+              <p className='text-4xl font-thin text-white text-opacity'>Top cars available right now !!!!</p>
               <motion.button
                 initial={{ rotate: 0 }}
                 whileHover={{ rotate: 90 }}
@@ -87,18 +123,22 @@ function Garage() {
             </div>
             <div className="flex ml-20 flex-wrap justify-start gap-6">
               {products.map((value) => (
-                <div className="card w-72 bg-base-500 shadow-xl image-full" key={value._id}>
+              //  <div className='bg-black w-72'>
+
+                <div className="card w-72 bg-white shadow-xl image-full" key={value._id}>
                   <figure>
                     <img src={value.image} alt="Product" />
                   </figure>
                   <div className="card-body">
                     <h2 className="card-title">{value.title}</h2>
-                    <p>{value.description}</p>
+                    <p>{value.category}</p>
                     <p>{value.price}</p>
                     <div className="card-actions justify-end">
+                    <button  onClick={()=>handleCart(value._id)}> book now</button>
                       {/* Add any additional actions */}
                     </div>
-                  </div>
+                  {/* </div> */}
+                </div>
                 </div>
               ))}
             </div>

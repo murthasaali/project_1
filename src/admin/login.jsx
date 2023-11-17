@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setToken ,setSignIn} from "../redux/authSlice";
+import { setToken ,setSignIn, setUserid, setUserToken, selectUserid, selectUserToken} from "../redux/authSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
@@ -34,7 +34,10 @@ function Login() {
   
   const isSignIn = useSelector((state) => state.auth.isSignIn);
 
-
+  const userId=useSelector(selectUserid)
+  const userToken=useSelector(selectUserToken)
+  console.log("userid",userId);
+  console.log("userToken",userToken);
   const [state, setState] = useState("");
   const [name, setName] = useState("");
   const dispatch = useDispatch();
@@ -45,15 +48,14 @@ function Login() {
   // }
   const tologin = (event) => {
     const email = event.target.email.value;
-    const password=event.target.password.value;// /  const apiKey=""
     const isAdmin = email === "murthasa@mail.com"; // Replace with the actual admin email
     event.preventDefault();
-   
-   const accessKey="55eebc5550c70b2b7736"
+    
+  
     if (isAdmin) {
       handleLogin(event);
     } else {
-      loginUser(accessKey,email,password);
+      loginUser(event);
     }
   };
   
@@ -92,7 +94,11 @@ function Login() {
     
 
   
-  const loginUser = async (accessKey,email,password) => {
+  const loginUser = async (event) => {
+    event.preventDefault()
+    const email = event.target.email.value;
+    const password=event.target.password.value;// /  const apiKey=""
+    const accessKey="55eebc5550c70b2b7736"
   
 
     try {
@@ -107,7 +113,13 @@ function Login() {
       if (status === 'success') {
         console.log(data)
         const token = data.token;
-        setName(data._id)
+        const id=data.userId;
+        dispatch(setUserToken(token))
+        setName(data.username)
+        dispatch(setUserid(id))
+        dispatch(setIslogin(true))
+       
+      
         alert(name)
 
         console.log('Login successful. Token:', token);
@@ -138,6 +150,7 @@ function Login() {
       justifyContent: 'center',
       alignItems: 'center',
       background: 'rgba(0, 0, 0, 0.9)',
+      overflow:"auto",
       zIndex: 999,
     }}
     onClick={() =>dispatch(setIslogin(false))}

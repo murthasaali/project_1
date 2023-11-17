@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaCartPlus, FaHeart, FaSearch, FaUser } from 'react-icons/fa';
+import { FaCartPlus, FaHeart, FaSearch, FaSignOutAlt, FaUser, FaUserPlus } from 'react-icons/fa';
 
 import DotBadge from '../components/badge';
 import {  useNavigate } from 'react-router-dom';
 import About from './about';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsabout, selectIscollection, setIscollection } from '../redux/authSlice';
+import { selectIsabout, selectIscart, selectIscollection, setIscollection,setIscart, clearUserToken, selectIslogin, clearIslogin } from '../redux/authSlice';
 import { setIsabout } from '../redux/authSlice';
 import Garage from './garage';
+import Cart from './cart';
 // Variants for different scaling durations
 const scaleVariants = {
   initial: { scale: 1 },
@@ -18,14 +19,18 @@ const scaleVariants = {
 function Mainbar() {
 
   const [isSearch,setIsSearch]=useState(false)
-  const [isLogin,setIslogin]=useState(false)
+
   const isAbout=useSelector(selectIsabout)
+  const isLogin=useSelector(selectIslogin)
   const nav=useNavigate()
   const dispatch=useDispatch()
   const isCollection = useSelector(selectIscollection);
-
-  
-  
+  const isCart=useSelector(selectIscart)
+  const handleLogout=()=>{
+    dispatch(clearUserToken(true))
+    dispatch(clearIslogin())
+    alert("thank you welcome back")
+  }
   
   return (
     <div className="main-bar">
@@ -68,16 +73,17 @@ function Mainbar() {
         <motion.button className="username" variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
           Username
         </motion.button>
-        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
-          <FaUser  onClick={()=>setIslogin(true)}/>
-        </motion.button>
-        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
-          <FaCartPlus/>
-        </motion.button>
-        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+        
+      {!isLogin? <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" onClick={()=>nav("/login")}>
+          <FaUserPlus/>
+        </motion.button>:
+         <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" onClick={handleLogout}>
+          <FaSignOutAlt/>
+        </motion.button> }
+        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" >
           <FaHeart/>
         </motion.button>
-        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
+        <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" onClick={()=>dispatch(setIscart(true))}>
           <DotBadge/>
         </motion.button>
         {/* Additional user-related content */}
@@ -116,7 +122,7 @@ function Mainbar() {
         
            
           >
-          <input type="text" className='bg-stone-300 text-blue-950  w-3/4 h-14 rounded-3xl pl-4 overflow-hidden shadow-md'/>
+          <input type="text" className='bg-stone-300 text-blue-950  w-3/4 h-14 rounded-3xl pl-4 overflow-hidden shadow-md   '/>
             
           </motion.div>
         </motion.div>
@@ -125,8 +131,12 @@ function Mainbar() {
         <About/>
       )}
       {isCollection&&(
-        <Garage/>
-      )}
+        isLogin&&
+        <Garage/>      )}
+      {
+        isCart&&
+        <Cart/>
+      }
 
     </div>
   );

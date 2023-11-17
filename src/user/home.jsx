@@ -34,8 +34,8 @@ function Home() {
     <Mainbar/>
     <div className='w-full flex p-3 h-1/2'>
       <div className='w-3/4 bg-black rounded-lg bg-opacity-30'></div>
-      <div className='w-1/2 p-7 font-thin'> <p>most popular brands</p><motion.ul
-    className="w-full h-full p-4 gap-4 grid grid-cols-4  grid-rows-2 gap-15 p-15 overflow-hidden bg-opacity-20 rounded-3xl"
+      <div className=' p-7 font-thin '> <p>most popular brands</p><motion.ul
+    className="w-full h-full p-4  gap-4 grid grid-cols-4  grid-rows-2 gap-15 p-15 overflow-hidden bg-opacity-20 rounded-3xl"
     variants={container}
     initial="hidden"
     animate="visible"
@@ -45,7 +45,20 @@ function Home() {
     ))}
   </motion.ul></div>
     </div>
+    <motion.div
+      initial={{ opacity: 0, y: -20 }} // Initial state: hidden and slightly above
+      animate={{ opacity: 1, y: 0 }} // Animated state: visible and at original position
+      transition={{ duration: 1 }} // Animation duration
+      className="your-container-class" // Replace with your custom class name
+    >
+      <p className='qoute1'><motion.span className='text-black text-opacity-40' >CHASE YOUR </motion.span >  <motion.span className='text-opacity-70 text-cyan-600'
+          initial={{ opacity: 0 }} // Initial state: hidden
+          animate={{ opacity: 1 }} // Animated state: visible
+          transition={{ delay: 0.5, duration: 1 }} // Animation delay and duration
+        >DREAMS !</motion.span></p>
+    </motion.div>
    </div>
+   <p className='qoute'>Drive Carefully</p>
    <Navber/>
     </div>
   )

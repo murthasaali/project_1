@@ -218,7 +218,7 @@
   align-items: center;
   justify-content: space-around;
   position: sticky;
-  opacity: 0.8;
+  opacity: 0.9;
   
 
 
@@ -260,4 +260,16 @@
   height: 80px;
   background-image: url('car.png'); /* Adjust the path based on your file location */
   background-size: contain;
+}
+.qoute{
+  font-family: 'Teko', sans-serif;
+}
+.headings{
+  font-family: 'Teko', sans-serif;
+  color:rgb(93, 93, 242);
+  font-size: 40px;
+}
+.qoute1{
+  font-family: 'Teko', sans-serif;
+  font-size: 200px;
 }

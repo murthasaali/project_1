@@ -30,6 +30,7 @@ function GetAllproduct() {
     setIsSearchVisible(!isSearchVisible);
   };
   const token = useSelector(selectToken);
+  console.log(token);
   const products = useSelector(selectProducts); // Rename setProducts to products
   const dispatch = useDispatch();
   const [isEdit,setIsedit]=useState(false)
