@@ -133,11 +133,8 @@ function Cart() {
                           <img src={item.image} alt="Shoes" />
                         </figure>
                         <div className='card-body'>
-
                           <h2 className='card-title'>{item.title}</h2>
-
                           <div className='card-actions justify-end'>
-
                           </div>
                         </div>
                       </div>
