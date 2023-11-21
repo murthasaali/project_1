@@ -55,11 +55,12 @@ function Mainbar() {
 
       {/* Navigation Links */}
       <div className="flex gap-4">
-        <ul className='flex gap-4 font-thin text-blue-950'>
-          <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
-          <p onClick={() => dispatch(setIsabout(true))}>About</p>          </motion.button>
-          <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
-            <p  onClick={()=>dispatch(setIscollection(true))}>  Collection</p>
+        <ul className='flex justify-center items-center gap-4 font-thin text-blue-950'>
+          <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover"  onClick={() => dispatch(setIsabout(true))}>
+            about
+            </motion.button>
+          <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover" onClick={()=>dispatch(setIscollection(true))}>
+           Collection
           </motion.button>
           <motion.button variants={scaleVariants} initial="initial" whileHover="hover" whileTap="hover">
             Home
