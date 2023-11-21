@@ -12,6 +12,7 @@ import Garage from './garage';
 import Cart from './cart';
 import Offer from './offer';
 import { Avatar } from '@mui/material';
+import toast from 'react-hot-toast';
 // Variants for different scaling durations
 const scaleVariants = {
   initial: { scale: 1 },
@@ -32,7 +33,8 @@ function Mainbar() {
   const handleLogout=()=>{
     dispatch(clearUserToken(true))
     dispatch(clearIslogin())
-    alert("thank you welcome back")
+    // alert("thank you welcome back")
+    toast.error("logout")
   }
   
   return (

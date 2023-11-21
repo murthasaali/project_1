@@ -1,24 +1,45 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { motion } from 'framer-motion'; // Import useAnimation from framer-motion
+import { color, motion } from 'framer-motion'; // Import useAnimation from framer-motion
 import axios from 'axios';
 import { selectIscollection, selectProducts, selectUserToken, selectUserid, setIscollection, setProducts } from '../redux/authSlice';
 import { selectToken } from '../redux/authSlice';
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import Alert from '@mui/material/Alert';
+import { FaEye, FaHeart } from 'react-icons/fa';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function Garage() {
   const dispatch = useDispatch();
+  const [wishlistItems, setWishlistItems] = useState([]);
   
   const isCollection = useSelector(selectIscollection);
   const products = useSelector(selectProducts);
   const token = useSelector(selectToken);
   const userToken=useSelector(selectUserToken)
   const userId=useSelector(selectUserid)
-  const [toast,setToast]=useState(false)
+  const nav=useNavigate()
+  
+    
+
   console.log(userId);
   console.log(userToken);
+  const [productsWishlist, setProductsWishlist] = useState({});
+
+  const handleToggleWishlist = async (productId) => {
+    const newWishlistState = {
+      ...productsWishlist,
+      [productId]: !productsWishlist[productId],
+    };
+    setProductsWishlist(newWishlistState);
+
+    if (newWishlistState[productId]) {
+      await handleWishlist(productId);
+    } else {
+      await handleRemoveWishlist(productId);
+    }
+  };
 
  
   const getAllProducts = async (token) => {
@@ -43,10 +64,38 @@ function Garage() {
 
   useEffect(() => {
     getAllProducts(token);
-  }, [isCollection,token]);
+    veiwWishList(userId, userToken);
+  }, [ token]);
 
   const handleClick = () => {
     dispatch(setIscollection(false));
+  };
+  
+  const handleRemoveWishlist = async (productId) => {
+    try {
+      console.log("Removing product from wishlist...");
+      console.log("Product ID:", productId);
+      console.log("User ID:", userId);
+      console.log("User Token:", userToken);
+
+      const response = await axios.delete(
+        `https://ecommerce-api.bridgeon.in/users/${userId}/wishlist/${productId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+
+      if (response.data.status === 'success') {
+        console.log('Product removed from wishlist.');
+        toast.error("Product removed from wishlist successfully");
+      } else {
+        console.error('Removing product from wishlist failed. Message:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
   };
 
 
@@ -68,12 +117,11 @@ const handleCart = async (productId) => {
       }
     );
 
-    console.log("Response:", response); // Log the response from the server
+// Log the response from the server
 
     if (response.data.status === 'success') {
       console.log('Product added to cart.');
-      setToast(true)
-      alert("product aded")
+      toast.success("product added to cart  succussfully")
     } else {
       console.error('Product addition to cart failed. Message:', response.data.message);
     }
@@ -81,17 +129,74 @@ const handleCart = async (productId) => {
     console.error('Error:', error.message);
   }
 };
-const handleCloseToast = () => {
-  setToast(false);
+const handleWishlist = async (productId) => {
+  try {
+    console.log("add to wishlist...");
+    console.log("Product ID:", productId);
+    console.log("User ID:", userId);
+    console.log("User Token:", userToken);
+
+
+    const response = await axios.post(
+      `https://ecommerce-api.bridgeon.in/users/${userId}/wishlist/${productId}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      }
+    );
+
+   // Log the response from the server
+   const { status, message, data } = response.data;
+    if (response.data.status === 'success') {
+      console.log("wishilist")
+      toast.success("product added to wishlist  succussfully")
+      
+   
+     
+    } else {
+      console.error('Product addition to cart failed. Message:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
 };
+
+
+
+const veiwWishList = async (userId, token) => {
+  try {
+    const response = await axios.get(`https://ecommerce-api.bridgeon.in/users/${userId}/wishlist`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const { status, message, data } = response.data;
+    if (status === 'success') {
+      // Successfully fetched cart items.
+      console.log('wishlist:', data.products);
+      setWishlistItems(data.products);
+    } else {
+      console.error('Cart item retrieval failed. Message:', message);
+    }
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+};
+
+const isInWishlist = (productId) => {
+  
+const tf= wishlistItems.some((value)=>value._id===productId);
+ return tf
+
+
+
+};
+
   return (
     <>
-    {
-      toast&&
-      <Alert onClose={handleCloseToast} severity="success" sx={{ position: 'fixed', top: 20, right: 20 }}>
-      Product added to cart!
-    </Alert>
-    }
+  
       {isCollection && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -121,7 +226,7 @@ const handleCloseToast = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="w-full h-40 bg-black flex justify-start rounded-lg p-4">
-              <p className='text-4xl font-thin text-white text-opacity'>Top cars available right now !!!!</p>
+              <p className='text-4xl font-thin text-white text-opacity' >p cars available right now !!!!</p>
               <motion.button
                 initial={{ rotate: 0 }}
                 whileHover={{ rotate: 90 }}
@@ -133,25 +238,35 @@ const handleCloseToast = () => {
               </motion.button>
             </div>
             <div className="flex ml-20 flex-wrap justify-start gap-6">
-              {products.map((value) => (
-              //  <div className='bg-black w-72'>
-
-                <div className="card w-72 bg-white shadow-xl image-full" key={value._id}>
-                  <figure>
-                    <img src={value.image} alt="Product" />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">{value.title}</h2>
-                    <p>{value.category}</p>
-                    <p>{value.price}</p>
-                    <div className="card-actions justify-end">
-                    <button  onClick={()=>handleCart(value._id)}> book now</button>
-                      {/* Add any additional actions */}
-                    </div>
-                  {/* </div> */}
+            {products.map((value) => (
+              <div className="card w-72 bg-white shadow-xl image-full" key={value._id}>
+                <figure>
+                  <img src={value.image} alt="Product" />
+                </figure>
+                <div className="card-body">
+                  <button onClick={() => handleCart(value._id)}>book now</button>
+                  <h2 className="card-title">{value.title}</h2>
+                  <p>{value.category}</p>
+                  <p className={isInWishlist(value._id) ? 'text-red-500' : 'text-blue-300'}>{value.price}</p>
+                  <div className="card-actions justify-end">
+                    <FaEye onClick={() => nav(`/viewproduct/${value._id}`)} className="z-40 top-0 text-white" />
+                    <input
+                      type="checkbox"
+                      checked={isInWishlist(value._id)?true : false}
+                      defaultValue={isInWishlist(value._id)?false:true}
+                      onChange={() => handleToggleWishlist(value._id)}
+                    />
+                    <FaHeart
+                      className={`${
+                        isInWishlist(value._id) ? 'text-pink-500' : 'text-stone-200'
+                      }`}
+                   
+                    />
+                    {/* Add any additional actions */}
+                  </div>
                 </div>
-                </div>
-              ))}
+              </div>
+            ))}
             </div>
           </motion.div>
         </motion.div>
@@ -160,4 +275,4 @@ const handleCloseToast = () => {
   );
 }
 
-export default Garage;
+export default Garage

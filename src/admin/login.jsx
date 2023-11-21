@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../redux/authSlice";
 import Registration from "./registration";
 import { setIslogin } from "../redux/authSlice";
+import toast from "react-hot-toast";
 const item = {
   hidden: { y: 20, opacity: 0 },
   visible: {
@@ -118,9 +119,9 @@ function Login() {
         setName(data.username)
         dispatch(setUserid(id))
         dispatch(setIslogin(true))
+        toast.success("loggined succussfully")
        
-      
-        alert(name)
+     
 
         console.log('Login successful. Token:', token);
         navigation('/')
@@ -147,6 +148,7 @@ function Login() {
       width: '100%',
       height: '100%',
       display: 'flex',
+      flexDirection:"column",
       justifyContent: 'center',
       alignItems: 'center',
       background: 'rgba(0, 0, 0, 0.9)',
@@ -155,6 +157,8 @@ function Login() {
     }}
     onClick={() =>dispatch(setIslogin(false))}
   >
+    <p className="qoute"><span className="text-blue-200 text-6xl">welcome to ck sons </span><br/>
+    <span className="text-3xl text-stone-200">car reandal service</span></p>
     <motion.div
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -164,11 +168,11 @@ function Login() {
       //   padding: '2rem',
       //   borderRadius: '0.5rem',
       // }}
-      className=" w-3/4 h-3/4 bg-no-repeat bg-conatin bg-center   rounded-lg bg-[url('car.png')]"
+      className=" w-3/4 h-3/4 bg-no-repeat bg-conatin bg-center  rounded-lg "
       onClick={(e) => e.stopPropagation()}
   
      
-    > <div className='w-full h-full bg-white bg-opacity-60 rounded-lg'>
+    > <div className='w-full h-full bg-blackn flex justify-center items-center bg-opacity-60 rounded-lg'>
  {   
   isSignIn?
   
@@ -180,11 +184,11 @@ function Login() {
 
         <form className="form" onSubmit={tologin}>
           <div className="input-group">
-            <motion.label htmlFor="username" variants={item} >Username</motion.label>
+            <motion.label htmlFor="username" variants={item} ><span className="text-stone-600 text-opacity-80">Username</span></motion.label>
             <input type="text" name="email" id="email" placeholder="" />
           </div>
           <div className="input-group">
-            <motion.label htmlFor="password" variants={item}>Password</motion.label>
+            <motion.label htmlFor="password" variants={item}><span className="text-stone-600 text-opacity-80">Password</span></motion.label>
             <input type="password" name="password" id="password" placeholder="" />
             <div className="forgot">
               <p rel="noopener noreferrer" >Forgot Password ?</p>

@@ -40,9 +40,9 @@ function Home() {
     initial="hidden"
     animate="visible"
   >
-    {[0, 1, 2, 3,5,6,7,8].map((index) => (
-      <motion.li key={index} className="rounded-full h-24 w-24 bg-black bg-opacity-20" variants={item} />
-    ))}
+  
+      <motion.li className="rounded-full h-24 w-24 bg-black bg-opacity-20 bg-cover " variants={item} />
+    
   </motion.ul></div>
     </div>
     <motion.div
